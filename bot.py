@@ -12,7 +12,7 @@ from telegram.ext import (
 )
 
 # ========== الإعدادات ==========
-BOT_TOKEN = "8649903791:AAH3TssfOp3v1Iyo02LtbgJNPL4Dbjan0TE"
+TOKEN = os.getenv("BOT_TOKEN")
 DATA_FILE = "data.json"
 
 logging.basicConfig(
@@ -211,7 +211,7 @@ async def check_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # ========== تشغيل البوت ==========
 def main():
-    app = Application.builder().token(BOT_TOKEN).build()
+    app = Application.builder().token(TOKEN).build()
 
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("help", help_command))
