@@ -14,13 +14,14 @@ from telegram.ext import (
 )
 
 
-app_flask = Flask(name)
+app_flask = Flask(__name__)
 
 @app_flask.route('/')
 def home():
     return "Bot is running"
 
 def run_web():
+    port=int(os.environ.get("PORT", 100000))
     app_flask.run(host="0.0.0.0", port=10000)
 
 threading.Thread(target=run_web).start()
@@ -224,6 +225,7 @@ async def check_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # ========== تشغيل البوت ==========
 def main():
+    threading.Thread(target=run_web).start()
     app = Application.builder().token(TOKEN).build()
 
     app.add_handler(CommandHandler("start", start))
@@ -235,6 +237,7 @@ def main():
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, check_message))
 
     logger.info("البوت شغال! 🚀")
+    
     app.run_polling()
 
 if __name__ == "__main__":
