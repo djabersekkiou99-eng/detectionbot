@@ -1,6 +1,8 @@
 import logging
 import json
 import os
+from flask import Flask
+import threading
 from datetime import datetime, timedelta
 from telegram import Update, ChatPermissions
 from telegram.ext import (
@@ -11,6 +13,17 @@ from telegram.ext import (
     ContextTypes,
 )
 
+
+app_flask = Flask(name)
+
+@app_flask.route('/')
+def home():
+    return "Bot is running"
+
+def run_web():
+    app_flask.run(host="0.0.0.0", port=10000)
+
+threading.Thread(target=run_web).start()
 # ========== الإعدادات ==========
 TOKEN = os.getenv("BOT_TOKEN")
 DATA_FILE = "data.json"
